@@ -1,9 +1,9 @@
 
-const tachStart = document.querySelector('button[data-start]');
-const tachStop = document.querySelector('button[data-stop]');
+const touchStart = document.querySelector('button[data-start]');
+const touchStop = document.querySelector('button[data-stop]');
 
-tachStart.addEventListener('click', changeColor);
-tachStop.addEventListener('click', onBtnStop);
+touchStart.addEventListener('click', changeColor);
+touchStop.addEventListener('click', onBtnStop);
 
 const INTERVAL_DELAY = 1000;
 let intervalId = null;
@@ -16,10 +16,10 @@ function  changeColor() {
     intervalId = setInterval(() => {
     document.body.style.backgroundColor = getRandomHexColor();
     }, INTERVAL_DELAY);
-    tachStart.disabled = true;
+    touchStart.disabled = true;
 };
 
 function onBtnStop() {
     clearInterval(intervalId);
-    tachStart.disabled = false;
+    touchStart.disabled = false;
 }
