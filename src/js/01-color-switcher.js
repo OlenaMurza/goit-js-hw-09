@@ -14,7 +14,7 @@ let intervalId = null;
 
 function  changeColor() {
     intervalId = setInterval(() => {
-    document.body.style.backgroundColor = colors[getRandomHexColor(0, colors.length - 1)];
+    document.body.style.backgroundColor = getRandomHexColor();
     }, INTERVAL_DELAY);
     tachStart.disabled = true;
 };
