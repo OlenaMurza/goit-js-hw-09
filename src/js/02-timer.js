@@ -44,7 +44,7 @@ function convertMs(ms) {
   const days = addLeadingZero(Math.floor(ms / day));
   // Залишок годин
   const hours = addLeadingZero(Math.floor((ms % day) / hour));
-  // Залишок мінут
+  // Залишок хвилин
   const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
   // Залишок секунд
   const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
