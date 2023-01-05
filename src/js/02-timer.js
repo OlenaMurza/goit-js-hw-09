@@ -2,9 +2,10 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 
-const input = document.querySelector('#datetime-picker');
+let selectedTime = null;
+const inputDate = document.querySelector('#datetime-picker');
 const buttonStart = document.querySelector('button[data-start]');
-const dataDays = document.querySelector('span[data-days]');
+const days = document.querySelector('span[data-days]');
 const hours = document.querySelector('span[data-hours]');
 const minutes = document.querySelector('span[data-minutes]');
 const seconds = document.querySelector('span[data-seconds]');
@@ -16,12 +17,12 @@ const seconds = document.querySelector('span[data-seconds]');
 const options = {
   enableTime: true,
   time_24hr: true,
-  defaultDate: Date.now(),
+  defaultDate: new Date(),
   minuteIncrement: 1,
 
   // ВИБІР ДАТИ
   onClose(selectedDates) {
-    if (selectedDates[0] < Date.now()) {
+    if (selectedDates[0] < new Date()) {
       window.alert('Please choose a date in the future');
       selectedDates[0] = new Date();
     } else {
@@ -40,27 +41,27 @@ function convertMs(ms) {
   const day = hour * 24;
 
   // Залишок днів
-  const days = Math.floor(ms / day);
+  const days = addLeadingZero(Math.floor(ms / day));
   // Залишок годин
-  const hours = Math.floor((ms % day) / hour);
+  const hours = addLeadingZero(Math.floor((ms % day) / hour));
   // Залишок мінут
-  const minutes = Math.floor(((ms % day) % hour) / minute);
+  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
   // Залишок секунд
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
 
   return { days, hours, minutes, seconds };
 }
 
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+// console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
+// console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
+// console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
 
 class Timer {
-  costructor() {
+  constructor() {
     this.timerId = null;
     this.isActive = false;
     buttonStart.disable = true;
@@ -72,7 +73,7 @@ class Timer {
     }
     this.isActive = true;
     this.timerId = setInterval(() => {
-      const currentTime = Date.now();
+      const currentTime = new Date();
       // різниця між обраним часом і поточним часом
       const deltaTime = selectedTime - currentTime;
 
@@ -85,8 +86,8 @@ class Timer {
     }, 1000);
   }
 
-updateComponentsTimer({ days, hours, minutes, seconds }) {
-  dataDays.textContent = days;
+ updateComponentsTimer({ days, hours, minutes, seconds }) {
+  days.textContent = days;
   hours.textContent = hours;
   minutes.textContent = minutes;
   seconds.textContent = seconds;
